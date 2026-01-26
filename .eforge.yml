@@ -1,0 +1,15 @@
+# eForge Preview Configuration
+
+# Command to start development server
+start: npm run dev
+
+# Setup command (run before start)
+setup: npm install
+
+# Named ports for services
+ports:
+  web: 5173
+
+# Routing rules (path -> port name)
+routes:
+  /*: web
