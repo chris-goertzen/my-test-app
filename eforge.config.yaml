@@ -1,9 +1,6 @@
 version: 1
-workdir: .
-setup: npm install
+startup: npm install && npm run dev
 services:
   - name: web
-    primary: true
-    start: npm run dev
     port: 5173
     protocol: http
