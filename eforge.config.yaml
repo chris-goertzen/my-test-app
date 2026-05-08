@@ -1,0 +1,9 @@
+version: 1
+workdir: .
+setup: npm install
+services:
+  - name: web
+    primary: true
+    start: npm run dev
+    port: 5173
+    protocol: http
