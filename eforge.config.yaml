@@ -1,6 +1,5 @@
 version: 1
-startup: npm install && npm run dev
-services:
-  - name: web
-    port: 5173
-    protocol: http
+preview:
+  service: web
+  port: 5173
+  protocol: http
