@@ -1,13 +1,344 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Pacifico&family=Bubblegum+Sans&display=swap');
 
 :root {
-  --radius: 0.5rem;
+  --radius: 1.25rem;
+  --unicorn-pink: #ffb3e6;
+  --unicorn-purple: #d6a8ff;
+  --unicorn-blue: #a8d8ff;
+  --unicorn-mint: #b3ffd9;
+  --unicorn-yellow: #fff4a3;
+  --unicorn-peach: #ffd1a8;
+  --unicorn-lavender: #e0c3fc;
 }
 
-body {
+/* ===========================================================
+   GLOBAL: Magical sparkly rainbow background
+   =========================================================== */
+html, body {
   margin: 0;
   min-height: 100vh;
-  background-color: #f9fafb;
-  color: #111827;
+  color: #4b2a6d;
   -webkit-font-smoothing: antialiased;
+  font-family: 'Fredoka', 'Comic Sans MS', system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 179, 230, 0.55), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgba(168, 216, 255, 0.55), transparent 45%),
+    radial-gradient(circle at 75% 85%, rgba(214, 168, 255, 0.55), transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(255, 244, 163, 0.55), transparent 45%),
+    linear-gradient(135deg, #ffe6f7 0%, #e6f0ff 30%, #f0e6ff 60%, #e6fff5 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
 }
+
+/* Twinkling star field overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 12% 18%, #fff, transparent),
+    radial-gradient(2px 2px at 28% 75%, #ffd1f3, transparent),
+    radial-gradient(1.5px 1.5px at 55% 30%, #fff7c4, transparent),
+    radial-gradient(2px 2px at 75% 60%, #c4e0ff, transparent),
+    radial-gradient(1.5px 1.5px at 92% 22%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 8% 88%, #f3c4ff, transparent),
+    radial-gradient(2px 2px at 48% 92%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 68% 12%, #fff, transparent);
+  background-size: 100% 100%;
+  animation: twinkle 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===========================================================
+   ANIMATIONS: rainbow text, float, bounce, shimmer, sparkle
+   =========================================================== */
+@keyframes rainbow-text {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes rainbow-border {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes float-unicorn {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50%      { transform: translateY(-18px) rotate(4deg); }
+}
+
+@keyframes gentle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@keyframes sparkle-spin {
+  0%   { transform: rotate(0deg)   scale(1);   opacity: 1; }
+  50%  { transform: rotate(180deg) scale(1.4); opacity: 0.7; }
+  100% { transform: rotate(360deg) scale(1);   opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+@keyframes cloud-drift {
+  0%   { transform: translateX(-10px); }
+  50%  { transform: translateX(10px); }
+  100% { transform: translateX(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 179, 230, 0.6), 0 0 40px rgba(214, 168, 255, 0.4); }
+  50%      { box-shadow: 0 0 35px rgba(255, 179, 230, 0.9), 0 0 60px rgba(214, 168, 255, 0.7); }
+}
+
+@keyframes rainbow-bg {
+  0%   { background-position:   0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position:   0% 50%; }
+}
+
+/* ===========================================================
+   UTILITY CLASSES (used by App.tsx via className)
+   =========================================================== */
+
+/* Glittery rainbow gradient text */
+.rainbow-text {
+  background: linear-gradient(
+    90deg,
+    #ff6ec7 0%,
+    #ffb86b 15%,
+    #fff36b 30%,
+    #6bff9d 45%,
+    #6bd5ff 60%,
+    #c46bff 75%,
+    #ff6ec7 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow-text 6s linear infinite;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 0 0 30px rgba(255, 192, 230, 0.25);
+}
+
+/* Subtle rainbow shimmer for smaller text */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #c46bff, #ff6ec7, #ffb86b, #fff36b, #6bd5ff, #c46bff
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Card with rainbow gradient border + glow */
+.unicorn-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 1.5rem !important;
+  border: none !important;
+  box-shadow:
+    0 8px 32px rgba(214, 168, 255, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.unicorn-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 1.6rem;
+  background: linear-gradient(
+    120deg,
+    #ff6ec7, #ffb86b, #fff36b, #6bff9d, #6bd5ff, #c46bff, #ff6ec7
+  );
+  background-size: 200% 200%;
+  animation: rainbow-border 5s linear infinite;
+  filter: blur(6px);
+  opacity: 0.85;
+}
+
+.unicorn-card:hover {
+  transform: translateY(-6px) rotate(-1deg);
+  box-shadow:
+    0 16px 48px rgba(214, 168, 255, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+/* Rainbow-bordered "magic button" */
+.magic-button {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    #ff6ec7, #ffb86b, #fff36b, #6bff9d, #6bd5ff, #c46bff, #ff6ec7
+  ) !important;
+  background-size: 300% 100% !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-family: 'Fredoka', sans-serif !important;
+  letter-spacing: 0.5px;
+  border: none !important;
+  border-radius: 9999px !important;
+  padding: 0.65rem 1.5rem !important;
+  text-shadow: 0 1px 2px rgba(120, 50, 130, 0.45);
+  box-shadow:
+    0 6px 20px rgba(255, 110, 199, 0.45),
+    0 0 0 3px rgba(255, 255, 255, 0.5) inset;
+  animation: rainbow-bg 5s linear infinite, pulse-glow 3s ease-in-out infinite;
+  transition: transform 0.2s ease;
+}
+.magic-button:hover {
+  transform: scale(1.08) rotate(-2deg);
+}
+
+/* Pastel-tinted button variants */
+.pastel-secondary {
+  background: linear-gradient(135deg, #ffd1f3, #d6a8ff) !important;
+  color: #6b2c8a !important;
+  border-radius: 9999px !important;
+  border: 2px solid rgba(255, 255, 255, 0.8) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 16px rgba(214, 168, 255, 0.4) !important;
+  transition: transform 0.2s;
+}
+.pastel-secondary:hover { transform: translateY(-2px) scale(1.04); }
+
+.pastel-outline {
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: #b4359a !important;
+  border: 2px dashed #ff6ec7 !important;
+  border-radius: 9999px !important;
+  font-weight: 600 !important;
+  transition: transform 0.2s, background 0.2s;
+}
+.pastel-outline:hover {
+  background: #fff !important;
+  transform: rotate(2deg) scale(1.04);
+}
+
+.pastel-ghost {
+  background: transparent !important;
+  color: #7e3bd0 !important;
+  border-radius: 9999px !important;
+  font-weight: 600 !important;
+  transition: background 0.2s, transform 0.2s;
+}
+.pastel-ghost:hover {
+  background: rgba(214, 168, 255, 0.25) !important;
+  transform: scale(1.05);
+}
+
+/* Floating, wiggling unicorn emoji */
+.floating-unicorn {
+  display: inline-block;
+  font-size: 4.5rem;
+  animation: float-unicorn 4s ease-in-out infinite;
+  filter: drop-shadow(0 6px 12px rgba(255, 110, 199, 0.5));
+}
+
+.wiggle { display: inline-block; animation: wiggle 1.8s ease-in-out infinite; }
+.bounce { display: inline-block; animation: gentle-bounce 2.4s ease-in-out infinite; }
+.sparkle-spin { display: inline-block; animation: sparkle-spin 3s linear infinite; }
+.drift { display: inline-block; animation: cloud-drift 8s ease-in-out infinite; }
+
+/* Decorative floating background emojis */
+.deco {
+  position: fixed;
+  pointer-events: none;
+  font-size: 2.5rem;
+  opacity: 0.85;
+  z-index: 0;
+  filter: drop-shadow(0 4px 8px rgba(214, 168, 255, 0.45));
+}
+
+/* Section title with cursive flair */
+.cursive-title {
+  font-family: 'Pacifico', cursive;
+  color: #b4359a;
+  text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(255, 192, 230, 0.35);
+}
+
+/* The big rainbow arch behind the header */
+.rainbow-arch {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  height: 190px;
+  border-radius: 380px 380px 0 0;
+  background:
+    radial-gradient(ellipse at center bottom,
+      transparent 0,
+      transparent 65%,
+      #c46bff 65%, #c46bff 70%,
+      #6bd5ff 70%, #6bd5ff 75%,
+      #6bff9d 75%, #6bff9d 80%,
+      #fff36b 80%, #fff36b 85%,
+      #ffb86b 85%, #ffb86b 90%,
+      #ff6ec7 90%, #ff6ec7 95%,
+      transparent 95%
+    );
+  opacity: 0.55;
+  filter: blur(1px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Counter number — big rainbow */
+.counter-number {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 3.5rem !important;
+  line-height: 1;
+  background: linear-gradient(90deg, #ff6ec7, #c46bff, #6bd5ff, #6bff9d, #fff36b, #ff6ec7);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow-text 4s linear infinite, gentle-bounce 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 4px 6px rgba(255, 110, 199, 0.35));
+}
+
+/* Stat-value: chunky bubblegum text */
+.stat-value {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 2rem;
+  background: linear-gradient(120deg, #ff6ec7, #c46bff);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom card description colour */
+.unicorn-desc { color: #8a5db8 !important; font-style: italic; }
+
+/* Heading accents */
+h1, h2, h3 { font-family: 'Fredoka', sans-serif; }
