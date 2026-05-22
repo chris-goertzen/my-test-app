@@ -4,10 +4,27 @@
   --radius: 0.5rem;
 }
 
+html,
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #f9fafb;
-  color: #111827;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Matrix is the default theme — start dark so the first paint doesn't
+   flash a light background before the canvas layer mounts. */
+body {
+  background-color: #030712;
+  color: #d1fae5;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+html[data-theme='matrix'] body {
+  background-color: #030712;
+  color: #d1fae5;
+}
+
+html[data-theme='unicorn'] body {
+  background: linear-gradient(180deg, #ffe1f4 0%, #e6f0ff 45%, #d9fbe5 100%);
+  color: #111827;
 }
