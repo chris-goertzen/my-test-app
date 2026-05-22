@@ -2,12 +2,111 @@
 
 :root {
   --radius: 0.5rem;
+
+  /* Default (matrix) theme variables. Overridden below per data-theme. */
+  --tp-bg: #03060a;
+  --tp-fg: #d6ffe4;
+  --tp-fg-muted: #7ae0a3;
+  --tp-card-bg: rgba(10, 18, 14, 0.72);
+  --tp-card-border: rgba(80, 200, 140, 0.35);
+  --tp-card-fg: #d6ffe4;
+  --tp-card-fg-muted: #8ad9aa;
+  --tp-accent: #4ade80;
 }
 
+html[data-theme="matrix"] {
+  --tp-bg: #03060a;
+  --tp-fg: #d6ffe4;
+  --tp-fg-muted: #7ae0a3;
+  --tp-card-bg: rgba(10, 18, 14, 0.72);
+  --tp-card-border: rgba(80, 200, 140, 0.35);
+  --tp-card-fg: #d6ffe4;
+  --tp-card-fg-muted: #8ad9aa;
+  --tp-accent: #4ade80;
+}
+
+html[data-theme="unicorn"] {
+  --tp-bg: #fff0fb;
+  --tp-fg: #4a1a55;
+  --tp-fg-muted: #a05b9b;
+  --tp-card-bg: rgba(255, 255, 255, 0.78);
+  --tp-card-border: rgba(220, 130, 200, 0.45);
+  --tp-card-fg: #4a1a55;
+  --tp-card-fg-muted: #8a4a82;
+  --tp-accent: #ec4899;
+}
+
+html,
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: var(--tp-bg);
+  color: var(--tp-fg);
   -webkit-font-smoothing: antialiased;
+  /* Smooth fade when the theme flips. */
+  transition:
+    background-color 250ms ease,
+    color 250ms ease;
+}
+
+/* The animated canvas sits behind everything else. */
+.theme-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* Theme-aware card / text helpers used by App. */
+.tp-card {
+  background-color: var(--tp-card-bg);
+  border-color: var(--tp-card-border);
+  color: var(--tp-card-fg);
+  backdrop-filter: blur(6px);
+  transition:
+    background-color 250ms ease,
+    color 250ms ease,
+    border-color 250ms ease;
+}
+
+.tp-card-muted {
+  color: var(--tp-card-fg-muted);
+  transition: color 250ms ease;
+}
+
+.tp-fg {
+  color: var(--tp-fg);
+  transition: color 250ms ease;
+}
+
+.tp-fg-muted {
+  color: var(--tp-fg-muted);
+  transition: color 250ms ease;
+}
+
+.tp-accent {
+  color: var(--tp-accent);
+  transition: color 250ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  .theme-backdrop,
+  .tp-card,
+  .tp-card-muted,
+  .tp-fg,
+  .tp-fg-muted,
+  .tp-accent {
+    transition: none !important;
+  }
 }
