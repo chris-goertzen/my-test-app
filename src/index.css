@@ -4,10 +4,34 @@
   --radius: 0.5rem;
 }
 
+html,
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #f9fafb;
-  color: #111827;
   -webkit-font-smoothing: antialiased;
+}
+
+body {
+  /* The animated canvas paints the real background; keep the body neutral
+     so there is no flash before mount. */
+  background-color: #050b07;
+  color: #111827;
+}
+
+/* Mode-aware fallback background while the canvas mounts / if JS is off. */
+html[data-theme-mode='unicorn'] body {
+  background: linear-gradient(180deg, #ffe7f5 0%, #e0d5ff 50%, #d3f1ff 100%);
+  color: #1a1a2e;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Belt-and-braces: the animation engine also slows itself down, but this
+     also blocks CSS transitions in the tree that ignore the preference. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
