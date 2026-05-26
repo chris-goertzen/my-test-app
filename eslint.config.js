@@ -20,4 +20,15 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // shadcn-style component files routinely co-export variants/hooks
+    // alongside components, which is incompatible with strict fast-refresh.
+    files: [
+      'src/components/ui/**/*.{ts,tsx}',
+      'src/components/theme-provider.tsx',
+    ],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])

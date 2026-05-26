@@ -1,100 +1,83 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Plus, Zap, Code, Rocket } from 'lucide-react'
+import { useCallback, useEffect, useState } from "react"
+import { AppShell } from "@/components/app-shell"
+import { OverviewPage } from "@/pages/overview"
+import { ButtonsPage } from "@/pages/buttons"
+import { FormsPage } from "@/pages/forms"
+import { SelectionPage } from "@/pages/selection"
+import { DataDisplayPage } from "@/pages/data-display"
+import { OverlaysPage } from "@/pages/overlays"
+import { FeedbackPage } from "@/pages/feedback"
+import { NavigationPage } from "@/pages/navigation"
+import { TypographyPage } from "@/pages/typography"
+import { isSectionId, type SectionId } from "@/lib/navigation"
+
+const DEFAULT_SECTION: SectionId = "overview"
+
+function readHashSection(): SectionId {
+  if (typeof window === "undefined") return DEFAULT_SECTION
+  const hash = window.location.hash.replace(/^#\/?/, "")
+  return isSectionId(hash) ? hash : DEFAULT_SECTION
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [section, setSection] = useState<SectionId>(() => readHashSection())
+
+  // Sync state -> URL hash
+  useEffect(() => {
+    const targetHash = `#/${section}`
+    if (window.location.hash !== targetHash) {
+      window.history.replaceState(null, "", targetHash)
+    }
+  }, [section])
+
+  // Sync URL hash -> state (back/forward)
+  useEffect(() => {
+    const onHash = () => setSection(readHashSection())
+    window.addEventListener("hashchange", onHash)
+    return () => window.removeEventListener("hashchange", onHash)
+  }, [])
+
+  const handleNavigate = useCallback((id: SectionId) => {
+    setSection(id)
+    // Scroll to top on section change
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <header className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            eForge Test App
-          </h1>
-          <p className="text-gray-600">
-            A minimal starter with Vite + React + Tailwind + shadcn/ui
-          </p>
-        </header>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="h-5 w-5 text-yellow-500" />
-                Fast
-              </CardTitle>
-              <CardDescription>Vite-powered HMR</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">&lt; 50ms</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Code className="h-5 w-5 text-blue-500" />
-                TypeScript
-              </CardTitle>
-              <CardDescription>Type-safe development</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">100%</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Rocket className="h-5 w-5 text-purple-500" />
-                Ready
-              </CardTitle>
-              <CardDescription>Production-ready setup</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">Ship it!</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Interactive Card */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Interactive Counter</CardTitle>
-            <CardDescription>
-              Click the button to increment the counter
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <Button onClick={() => setCount(c => c + 1)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Increment
-              </Button>
-              <span className="text-3xl font-bold text-gray-900">{count}</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 justify-center">
-          <Button variant="default">Primary Action</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="outline">Outline</Button>
-          <Button variant="ghost">Ghost</Button>
-        </div>
-
-        {/* Footer */}
-        <footer className="text-center mt-12 text-gray-500 text-sm">
-          <p>Built with eForge Preview</p>
-        </footer>
-      </div>
-    </div>
+    <AppShell section={section} onSectionChange={handleNavigate}>
+      {renderSection(section, handleNavigate)}
+    </AppShell>
   )
+}
+
+function renderSection(
+  section: SectionId,
+  onNavigate: (id: SectionId) => void
+) {
+  switch (section) {
+    case "overview":
+      return <OverviewPage onNavigate={onNavigate} />
+    case "buttons":
+      return <ButtonsPage />
+    case "forms":
+      return <FormsPage />
+    case "selection":
+      return <SelectionPage />
+    case "data-display":
+      return <DataDisplayPage />
+    case "overlays":
+      return <OverlaysPage />
+    case "feedback":
+      return <FeedbackPage />
+    case "navigation":
+      return <NavigationPage />
+    case "typography":
+      return <TypographyPage />
+    default:
+      return <OverviewPage onNavigate={onNavigate} />
+  }
 }
 
 export default App
