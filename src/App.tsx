@@ -1,22 +1,67 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Plus, Zap, Code, Rocket } from 'lucide-react'
+import { Plus, Zap, Code, Rocket, Sparkles, Power } from 'lucide-react'
+import { UnicornScene } from '@/components/UnicornScene'
+
+type Theme = 'default' | 'unicorn'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [theme, setTheme] = useState<Theme>('default')
+  const unicorn = theme === 'unicorn'
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
-      <div className="max-w-4xl mx-auto">
+    // `relative` so the UI stacks above the fixed scene at z-index 0.
+    <div
+      className={
+        'relative min-h-screen p-8 transition-colors duration-700 ' +
+        (unicorn
+          ? 'bg-transparent'
+          : 'bg-gradient-to-br from-gray-50 to-gray-100')
+      }
+    >
+      {/* Theme-specific scene layer.  Rendered behind the UI; crossfades
+          itself in/out based on `active`. */}
+      <UnicornScene active={unicorn} />
+
+      {/* All UI sits above the scene */}
+      <div className="relative max-w-4xl mx-auto" style={{ zIndex: 10 }}>
         {/* Header */}
         <header className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1
+            className={
+              'text-4xl font-bold mb-2 ' +
+              (unicorn ? 'text-purple-900 drop-shadow-sm' : 'text-gray-900')
+            }
+          >
             eForge Test App
           </h1>
-          <p className="text-gray-600">
+          <p className={unicorn ? 'text-purple-800' : 'text-gray-600'}>
             A minimal starter with Vite + React + Tailwind + shadcn/ui
           </p>
+
+          {/* Theme toggle */}
+          <div className="mt-6 flex justify-center">
+            <Button
+              variant={unicorn ? 'default' : 'outline'}
+              onClick={() => setTheme(unicorn ? 'default' : 'unicorn')}
+              aria-pressed={unicorn}
+              data-testid="theme-toggle"
+            >
+              {unicorn ? (
+                <>
+                  <Power className="h-4 w-4 mr-2" />
+                  Exit Super Unicorns
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Super Unicorns Mode
+                </>
+              )}
+            </Button>
+          </div>
         </header>
 
         {/* Stats Cards */}
@@ -89,7 +134,12 @@ function App() {
         </div>
 
         {/* Footer */}
-        <footer className="text-center mt-12 text-gray-500 text-sm">
+        <footer
+          className={
+            'text-center mt-12 text-sm ' +
+            (unicorn ? 'text-purple-800' : 'text-gray-500')
+          }
+        >
           <p>Built with eForge Preview</p>
         </footer>
       </div>

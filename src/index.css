@@ -11,3 +11,101 @@ body {
   color: #111827;
   -webkit-font-smoothing: antialiased;
 }
+
+/* ---------------------------------------------------------------------------
+ * Unicorn theme — keyframes for the rainbow / pixies / dragons scene.
+ * All animations honor `animation-play-state: paused` via the `.scene-paused`
+ * modifier applied to the scene root when the tab is hidden.
+ * ------------------------------------------------------------------------- */
+
+.scene-paused,
+.scene-paused * {
+  animation-play-state: paused !important;
+}
+
+/* Rainbow: gentle shimmer + slow breathing scale so it feels alive without
+   being chaotic.  Entry slide is handled by `rainbow-enter`. */
+@keyframes rainbow-enter {
+  0% {
+    transform: translate(-50%, 30%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 0.85;
+  }
+}
+
+@keyframes rainbow-breathe {
+  0%, 100% {
+    filter: saturate(1) brightness(1);
+    transform: translate(-50%, 0) scale(1);
+  }
+  50% {
+    filter: saturate(1.15) brightness(1.08);
+    transform: translate(-50%, -1%) scale(1.015);
+  }
+}
+
+@keyframes rainbow-shimmer {
+  0%, 100% { opacity: 0.0; }
+  50%      { opacity: 0.35; }
+}
+
+/* Pixies: lazy figure-eight drift + twinkle pulse.  Multiple variants give
+   each pixie its own personality without manual choreography. */
+@keyframes pixie-drift-a {
+  0%   { transform: translate(0, 0)        rotate(0deg); }
+  25%  { transform: translate(40px, -30px) rotate(8deg); }
+  50%  { transform: translate(0, -60px)    rotate(-4deg); }
+  75%  { transform: translate(-40px, -30px) rotate(-10deg); }
+  100% { transform: translate(0, 0)        rotate(0deg); }
+}
+
+@keyframes pixie-drift-b {
+  0%   { transform: translate(0, 0)         rotate(0deg); }
+  25%  { transform: translate(-50px, 25px)  rotate(-6deg); }
+  50%  { transform: translate(-20px, 55px)  rotate(5deg); }
+  75%  { transform: translate(30px, 20px)   rotate(12deg); }
+  100% { transform: translate(0, 0)         rotate(0deg); }
+}
+
+@keyframes pixie-drift-c {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(60px, 35px); }
+  66%  { transform: translate(-30px, 50px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes pixie-twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.15); }
+}
+
+/* Dragons: wide arcing flight across the screen.  Two variants so the
+   left/right dragons feel like a duet, not a synced clone. */
+@keyframes dragon-fly-l2r {
+  0%   { transform: translate(-15vw, 10vh) rotate(-4deg); }
+  25%  { transform: translate(25vw, -2vh)  rotate(2deg); }
+  50%  { transform: translate(55vw, 6vh)   rotate(-3deg); }
+  75%  { transform: translate(85vw, -4vh)  rotate(3deg); }
+  100% { transform: translate(115vw, 8vh)  rotate(-2deg); }
+}
+
+@keyframes dragon-fly-r2l {
+  0%   { transform: translate(115vw, 0vh)  rotate(-176deg); }
+  25%  { transform: translate(80vw, 14vh)  rotate(-184deg); }
+  50%  { transform: translate(45vw, 2vh)   rotate(-178deg); }
+  75%  { transform: translate(10vw, 18vh)  rotate(-182deg); }
+  100% { transform: translate(-25vw, 4vh)  rotate(-176deg); }
+}
+
+@keyframes dragon-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+@keyframes dragon-wing {
+  0%, 100% { transform: scaleY(1)   skewX(0deg); }
+  50%      { transform: scaleY(0.7) skewX(-6deg); }
+}
