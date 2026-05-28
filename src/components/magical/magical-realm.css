@@ -1,0 +1,206 @@
+/* =========================================================================
+   Magical Realm — pure CSS / SVG animations.
+   No JS animation libraries. Motion is paused via the root attribute
+   `data-motion-state="resting"` or the OS `prefers-reduced-motion` media
+   query.
+   ========================================================================= */
+
+.magical-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ----- Rainbow ----------------------------------------------------------- */
+
+.magical-rainbow {
+  position: absolute;
+  left: 50%;
+  bottom: -55%;
+  width: 170%;
+  aspect-ratio: 1 / 1;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.45));
+  opacity: 0.85;
+  animation: rainbow-glow 7s ease-in-out infinite alternate;
+}
+
+@keyframes rainbow-glow {
+  0% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.35));
+  }
+  100% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 55px rgba(255, 255, 255, 0.6));
+  }
+}
+
+/* ----- Pixies ------------------------------------------------------------ */
+
+.pixie {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  will-change: transform;
+  filter: drop-shadow(0 0 8px rgba(255, 240, 180, 0.85));
+}
+
+.pixie-glow {
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+  animation: pixie-twinkle 1.8s ease-in-out infinite;
+}
+
+.pixie-lumi {
+  top: 28%;
+  left: 8%;
+  animation:
+    pixie-orbit 11s ease-in-out infinite,
+    pixie-bob 2.3s ease-in-out infinite;
+}
+
+.pixie-mira {
+  top: 52%;
+  left: 68%;
+  animation:
+    pixie-arc 14s linear infinite,
+    pixie-bob 3.1s ease-in-out infinite;
+  animation-delay: -2.5s, -0.7s;
+}
+
+.pixie-pip {
+  top: 18%;
+  left: 50%;
+  animation:
+    pixie-zigzag 9s cubic-bezier(0.5, 0.05, 0.5, 0.95) infinite,
+    pixie-bob 1.7s ease-in-out infinite;
+  animation-delay: -1s, -0.3s;
+}
+
+.pixie-vela {
+  top: 62%;
+  left: 22%;
+  animation:
+    pixie-spiral 17s ease-in-out infinite,
+    pixie-bob 2.7s ease-in-out infinite;
+  animation-delay: -5s, -1.4s;
+}
+
+@keyframes pixie-orbit {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  25%  { transform: translate(90px, -70px) scale(1.1); }
+  50%  { transform: translate(180px, 0px) scale(1); }
+  75%  { transform: translate(90px, 70px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes pixie-arc {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-110px, -140px); }
+  50%  { transform: translate(-220px, -160px); }
+  75%  { transform: translate(-110px, -80px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes pixie-zigzag {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(60px, -40px); }
+  40%  { transform: translate(-50px, 30px); }
+  60%  { transform: translate(80px, -20px); }
+  80%  { transform: translate(-40px, 50px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes pixie-spiral {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(80px, -60px) rotate(180deg); }
+  50%  { transform: translate(-40px, -120px) rotate(360deg); }
+  75%  { transform: translate(-120px, -40px) rotate(540deg); }
+  100% { transform: translate(0, 0) rotate(720deg); }
+}
+
+@keyframes pixie-bob {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -6px; }
+}
+
+@keyframes pixie-twinkle {
+  0%, 100% { opacity: 0.55; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.15); }
+}
+
+/* ----- Dragons ----------------------------------------------------------- */
+
+.dragon {
+  position: absolute;
+  width: 240px;
+  will-change: transform;
+}
+
+.dragon-aurion {
+  top: 14%;
+  left: 0;
+  animation: dragon-pan-a 14s linear infinite;
+}
+
+.dragon-noctis {
+  top: 40%;
+  left: 0;
+  animation: dragon-pan-b 14.5s linear infinite;
+  animation-delay: -3s;
+}
+
+@keyframes dragon-pan-a {
+  0%   { transform: translate(-30vw, 0); }
+  50%  { transform: translate(50vw, -22px); }
+  100% { transform: translate(130vw, 0); }
+}
+
+@keyframes dragon-pan-b {
+  0%   { transform: translate(130vw, 0) scaleX(-1); }
+  50%  { transform: translate(50vw, 18px) scaleX(-1); }
+  100% { transform: translate(-30vw, 0) scaleX(-1); }
+}
+
+.dragon-wing {
+  transform-origin: 50% 100%;
+  transform-box: fill-box;
+}
+
+.dragon-wing-a {
+  animation: wing-flap-a 0.9s ease-in-out infinite;
+}
+
+.dragon-wing-b {
+  animation: wing-flap-b 1.1s ease-in-out infinite;
+  animation-delay: -0.2s;
+}
+
+@keyframes wing-flap-a {
+  0%, 100% { transform: scaleY(1) skewX(0deg); }
+  50%      { transform: scaleY(0.45) skewX(-6deg); }
+}
+
+@keyframes wing-flap-b {
+  0%, 100% { transform: scaleY(1) skewX(0deg); }
+  50%      { transform: scaleY(0.35) skewX(6deg); }
+}
+
+/* ----- Motion-state pausing --------------------------------------------- */
+
+[data-motion-state="resting"] .magical-scene *,
+[data-motion-state="resting"] .magical-scene {
+  animation-play-state: paused !important;
+}
+
+/* Defensive CSS-only fallback: if JS never runs, the OS preference still
+   pauses motion. */
+@media (prefers-reduced-motion: reduce) {
+  [data-motion-state]:not([data-motion-state="active"]) .magical-scene *,
+  [data-motion-state]:not([data-motion-state="active"]) .magical-scene {
+    animation-play-state: paused !important;
+  }
+}
