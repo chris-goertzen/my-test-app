@@ -2,6 +2,23 @@
 
 :root {
   --radius: 0.5rem;
+
+  /* =========================================================================
+   * Canonical green treatment for ALL dragons in the Magical Realm.
+   * `--dragon-green` is THE single source of truth for dragon coloring.
+   * Override it here (or via a theme class) to retint every dragon at once.
+   * Non-dragon scene objects intentionally do not reference these vars.
+   * =======================================================================*/
+  --dragon-green: #1f9d55;          /* canonical emerald body color    */
+  --dragon-green-shadow: #146b3a;   /* shaded underside / wing back    */
+  --dragon-green-glow: #6ee7b7;     /* aura, breath VFX, sparkles      */
+}
+
+/* A dark "midnight realm" theme keeps dragons green via the same source. */
+.theme-midnight {
+  --dragon-green: #34d399;
+  --dragon-green-shadow: #047857;
+  --dragon-green-glow: #a7f3d0;
 }
 
 body {
@@ -10,4 +27,69 @@ body {
   background-color: #f9fafb;
   color: #111827;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------------------
+ * Magical Realm scene animations
+ * -------------------------------------------------------------------------*/
+@keyframes dragon-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-14px) rotate(2deg); }
+}
+
+@keyframes dragon-flap {
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.78); }
+}
+
+@keyframes dragon-glide {
+  0%   { transform: translateX(-8%) translateY(0); }
+  50%  { transform: translateX(8%)  translateY(-10px); }
+  100% { transform: translateX(-8%) translateY(0); }
+}
+
+@keyframes dragon-breath {
+  0%, 100% { opacity: 0.55; transform: scale(0.95); }
+  50%      { opacity: 1;    transform: scale(1.08); }
+}
+
+@keyframes sparkle-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%      { opacity: 1;   transform: scale(1.15); }
+}
+
+@keyframes cloud-drift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(40px); }
+}
+
+@keyframes sun-pulse {
+  0%, 100% { filter: drop-shadow(0 0 8px #fde68a); }
+  50%      { filter: drop-shadow(0 0 22px #fcd34d); }
+}
+
+.dragon-float { animation: dragon-float 4s ease-in-out infinite; transform-origin: center; }
+.dragon-glide { animation: dragon-glide 7s ease-in-out infinite; transform-origin: center; }
+.dragon-wing  { animation: dragon-flap 0.9s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.dragon-breath{ animation: dragon-breath 1.6s ease-in-out infinite; transform-origin: left center; transform-box: fill-box; }
+.sparkle      { animation: sparkle-pulse 2.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.cloud-drift  { animation: cloud-drift 9s ease-in-out infinite alternate; }
+.sun-pulse    { animation: sun-pulse 3.5s ease-in-out infinite; }
+
+/* Hover state for dragons: keeps the canonical green via filter brightness/
+ * saturation; does NOT recolor with a hardcoded value. */
+.dragon-instance {
+  transition: filter 200ms ease-out, transform 200ms ease-out;
+  cursor: pointer;
+}
+.dragon-instance:hover {
+  filter: drop-shadow(0 0 12px var(--dragon-green-glow))
+          saturate(1.25)
+          brightness(1.08);
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dragon-float, .dragon-glide, .dragon-wing, .dragon-breath,
+  .sparkle, .cloud-drift, .sun-pulse { animation: none; }
 }
