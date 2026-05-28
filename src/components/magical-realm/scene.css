@@ -1,0 +1,303 @@
+/* ============================================================
+   Magical Realm — Animated Scene styles
+   CSS-only keyframes (no animation libraries)
+   Pauses globally via .motion-paused & prefers-reduced-motion
+   ============================================================ */
+
+.magical-scene,
+.magical-scene * {
+  pointer-events: none;
+}
+
+/* ---- Rainbow ribbon -------------------------------------- */
+.rainbow-ribbon {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -45%;
+  height: 90%;
+  border-radius: 50% / 50%;
+  filter: blur(0.5px) drop-shadow(0 -10px 32px rgba(255, 255, 255, 0.45));
+  opacity: 0.78;
+  background: conic-gradient(
+    from 0deg at 50% 100%,
+    transparent 0deg 220deg,
+    rgba(238, 75, 75, 0.65) 230deg,
+    rgba(244, 137, 36, 0.65) 240deg,
+    rgba(247, 207, 53, 0.7) 250deg,
+    rgba(98, 205, 121, 0.65) 260deg,
+    rgba(70, 162, 244, 0.65) 270deg,
+    rgba(85, 90, 207, 0.65) 280deg,
+    rgba(149, 84, 205, 0.65) 290deg,
+    transparent 300deg 360deg
+  );
+  animation: rainbow-shimmer 9s ease-in-out infinite alternate;
+}
+
+.rainbow-ribbon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.12) 35%,
+    transparent 65%
+  );
+  mix-blend-mode: screen;
+}
+
+@keyframes rainbow-shimmer {
+  0% {
+    opacity: 0.62;
+    filter: blur(0.5px) drop-shadow(0 -10px 30px rgba(255, 255, 255, 0.4));
+  }
+  100% {
+    opacity: 0.88;
+    filter: blur(0.5px) drop-shadow(0 -10px 48px rgba(255, 255, 255, 0.6));
+  }
+}
+
+/* ---- Pixies ---------------------------------------------- */
+.pixie {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 0 12px rgba(255, 240, 180, 0.85))
+    drop-shadow(0 0 28px rgba(255, 200, 240, 0.55));
+  will-change: transform, opacity;
+}
+
+.pixie svg {
+  width: 100%;
+  height: 100%;
+}
+
+.pixie .sparkle-core {
+  transform-origin: 50% 50%;
+  animation: sparkle-twinkle 1.6s ease-in-out infinite;
+}
+
+@keyframes sparkle-twinkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.55) rotate(45deg);
+    opacity: 0.55;
+  }
+}
+
+/* Independent looping motion paths */
+.pixie-1 {
+  top: 18%;
+  left: 12%;
+  animation: pixie-drift-1 11s ease-in-out infinite;
+}
+.pixie-1 .sparkle-core {
+  animation-duration: 1.8s;
+  animation-timing-function: ease-in-out;
+}
+
+.pixie-2 {
+  top: 30%;
+  left: 78%;
+  animation: pixie-drift-2 14s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+.pixie-2 .sparkle-core {
+  animation-duration: 2.4s;
+  animation-timing-function: ease-out;
+}
+
+.pixie-3 {
+  top: 55%;
+  left: 40%;
+  animation: pixie-drift-3 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.pixie-3 .sparkle-core {
+  animation-duration: 1.2s;
+  animation-timing-function: linear;
+}
+
+.pixie-4 {
+  top: 70%;
+  left: 18%;
+  animation: pixie-drift-4 16s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+.pixie-4 .sparkle-core {
+  animation-duration: 3s;
+  animation-timing-function: ease-in;
+}
+
+@keyframes pixie-drift-1 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(80px, -40px, 0);
+  }
+  50% {
+    transform: translate3d(160px, 30px, 0);
+  }
+  75% {
+    transform: translate3d(60px, 70px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes pixie-drift-2 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(-120px, 50px, 0) rotate(-12deg);
+  }
+  66% {
+    transform: translate3d(40px, 100px, 0) rotate(8deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes pixie-drift-3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(90px, -80px, 0) scale(1.15);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes pixie-drift-4 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(50px, -30px, 0);
+  }
+  40% {
+    transform: translate3d(180px, 20px, 0);
+  }
+  60% {
+    transform: translate3d(120px, -90px, 0);
+  }
+  80% {
+    transform: translate3d(-30px, -50px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* ---- Dragons --------------------------------------------- */
+.dragon {
+  position: absolute;
+  width: 220px;
+  height: 110px;
+  opacity: 0.85;
+  filter: drop-shadow(0 12px 18px rgba(20, 6, 50, 0.35));
+  will-change: transform;
+}
+
+.dragon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dragon .wing {
+  transform-origin: 50% 90%;
+}
+
+.dragon-1 {
+  top: 20%;
+  animation: dragon-fly-1 14s ease-in-out infinite;
+}
+
+.dragon-1 .wing {
+  animation: wing-flap-1 0.9s ease-in-out infinite;
+}
+
+.dragon-2 {
+  top: 45%;
+  animation: dragon-fly-2 14s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: -6s;
+}
+
+.dragon-2 .wing {
+  animation: wing-flap-2 1.3s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+@keyframes dragon-fly-1 {
+  0% {
+    transform: translate3d(-30vw, 0, 0) scaleX(1);
+  }
+  45% {
+    transform: translate3d(55vw, -30px, 0) scaleX(1);
+  }
+  50% {
+    transform: translate3d(60vw, -10px, 0) scaleX(-1);
+  }
+  95% {
+    transform: translate3d(-25vw, 20px, 0) scaleX(-1);
+  }
+  100% {
+    transform: translate3d(-30vw, 0, 0) scaleX(1);
+  }
+}
+
+@keyframes dragon-fly-2 {
+  0% {
+    transform: translate3d(110vw, 0, 0) scaleX(-1);
+  }
+  48% {
+    transform: translate3d(-20vw, 40px, 0) scaleX(-1);
+  }
+  52% {
+    transform: translate3d(-22vw, 30px, 0) scaleX(1);
+  }
+  100% {
+    transform: translate3d(110vw, -10px, 0) scaleX(1);
+  }
+}
+
+@keyframes wing-flap-1 {
+  0%,
+  100% {
+    transform: rotate(-18deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(22deg) scaleY(0.85);
+  }
+}
+
+@keyframes wing-flap-2 {
+  0%,
+  100% {
+    transform: rotate(-14deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(28deg) scaleY(0.9);
+  }
+}
+
+/* ---- Motion-paused state --------------------------------- */
+.motion-paused .magical-scene *,
+.motion-paused .magical-scene {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magical-scene *,
+  .magical-scene {
+    animation-play-state: paused !important;
+  }
+}
